@@ -1,15 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+
+import ImageCanvas from "./components/ImageCanvas";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
+    <div className="w-screen text-8xl font-bold text-red-400 text-center">hello</div>
       
-      <div className=''>hit</div>
+   <ImageCanvas/>
        
     </>
   )

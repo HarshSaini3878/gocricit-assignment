@@ -13,7 +13,7 @@ const ImageCanvas = ({ selectedImage }) => {
     if (!canvasEl.current) return;
 
     const canvas = new fabric.Canvas(canvasEl.current, {
-      backgroundColor: "#f3f3f3",
+      backgroundColor: "#27272a",
       selection: false,
     });
 
@@ -116,8 +116,8 @@ const ImageCanvas = ({ selectedImage }) => {
   };
 
   return (
-    <div className="relative flex justify-center items-center max-h-screen w-full">
-      <canvas width="650" height="650" className="border-2" ref={canvasEl} />
+    <div className="relative flex justify-center items-center max-h-screen w-full bg-zinc-800 border-x-1 border-zinc-800">
+      <canvas width="650" height="650" ref={canvasEl} />
 
       {/* Button Panel (Right Side) */}
       <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex flex-col gap-2 p-4 bg-gray-900 rounded-lg shadow-lg">

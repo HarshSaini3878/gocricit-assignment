@@ -1,19 +1,24 @@
-
-
+import { useEffect, useState } from "react";
 import ImageCanvas from "./components/ImageCanvas";
-
+import Sidebar from "./components/SideBar";
 
 function App() {
-  
+  const [selectedImage,setSelectedImage]=useState("");
+  useEffect(()=>{
 
+    console.log(selectedImage);
+  },[selectedImage])
   return (
-    <>
-    <div className="w-screen text-8xl font-bold text-red-400 text-center">hello</div>
+    <div className="flex h-screen bg-gray-600">
+   
+      <Sidebar setSelectedImage={setSelectedImage} />
+
+     
       
-   <ImageCanvas/>
-       
-    </>
-  )
+        <ImageCanvas selectedImage={selectedImage} />
+     
+    </div>
+  );
 }
 
-export default App
+export default App;

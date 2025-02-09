@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ImageCanvas from "./components/ImageCanvas";
-import Sidebar from "./components/SideBar";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   const [selectedImage,setSelectedImage]=useState("");

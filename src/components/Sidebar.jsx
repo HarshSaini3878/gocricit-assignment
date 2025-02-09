@@ -69,7 +69,7 @@ const scanData = {
 };
 
 
-export default function PatientScansSidebar({ setSelectedImage }) {
+export default function Sidebar({ setSelectedImage }) {
   const [openDate, setOpenDate] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

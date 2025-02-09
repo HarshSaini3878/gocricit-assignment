@@ -6,7 +6,7 @@ import Sidebar2 from "./Sidebar2";
 
 const ImageCanvas = ({ selectedImage }) => {
   const canvasEl = useRef(null);
- 
+  const [patient,setPatient]=useState(selectedImage);
   const canvasInstance = useRef(null);
   const imageRef = useRef(null);
   const [drawingMode, setDrawingMode] = useState(false);
@@ -25,16 +25,16 @@ const ImageCanvas = ({ selectedImage }) => {
       let sizeLimit;
       if (window.innerWidth <= 320) {
         // Extra small mobile devices
-        sizeLimit = 270;
+        sizeLimit = 250;
       } else if (window.innerWidth <= 375) {
         // Small mobile devices
-        sizeLimit = 300;
+        sizeLimit = 280;
       } else if (window.innerWidth <= 425) {
         // Regular mobile devices
-        sizeLimit = 340;
+        sizeLimit = 325;
       } else if (window.innerWidth <= 500) {
         // Large mobile devices
-        sizeLimit = 375;
+        sizeLimit = 350;
       } else if (window.innerWidth <= 640) {
         // Small tablets
         sizeLimit = 500;
@@ -246,7 +246,7 @@ const ImageCanvas = ({ selectedImage }) => {
     <div className="flex flex-col items-center justify-center min-h-screen w-full bg-zinc-800 p-4">
   
 
- 
+  
       
       {/* Canvas */}
 

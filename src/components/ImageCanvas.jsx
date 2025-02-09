@@ -1,25 +1,63 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as fabric from "fabric";
 import Button from "./Button";
-import { Image, RotateCw, Eraser, Pencil, Text } from "lucide-react";
+import { Image, RotateCw, Eraser, Pencil, Text, Circle, Square, Save, Trash2 } from "lucide-react";
+import Sidebar2 from "./Sidebar2";
 
 const ImageCanvas = ({ selectedImage }) => {
   const canvasEl = useRef(null);
+ 
   const canvasInstance = useRef(null);
   const imageRef = useRef(null);
   const [drawingMode, setDrawingMode] = useState(false);
   const [eraserMode, setEraserMode] = useState(false);
   const [brushColor, setBrushColor] = useState("black");
+  const [textColor, setTextColor] = useState("black"); // New state for text color
   const [canvasDimensions, setCanvasDimensions] = useState({ width: 650, height: 650 });
+  
 
   // Update canvas dimensions based on screen size
   useEffect(() => {
     const updateCanvasDimensions = () => {
       const maxWidth = window.innerWidth * 0.9; // 90% of screen width
-      const maxHeight = window.innerHeight * 0.7; // 70% of screen height
-      const size = Math.min(maxWidth, maxHeight, 650); // Limit to 650px
+      const maxHeight = window.innerHeight * 0.75; // 75% of screen height
+    
+      let sizeLimit;
+      if (window.innerWidth <= 320) {
+        // Extra small mobile devices
+        sizeLimit = 270;
+      } else if (window.innerWidth <= 375) {
+        // Small mobile devices
+        sizeLimit = 300;
+      } else if (window.innerWidth <= 425) {
+        // Regular mobile devices
+        sizeLimit = 340;
+      } else if (window.innerWidth <= 500) {
+        // Large mobile devices
+        sizeLimit = 375;
+      } else if (window.innerWidth <= 640) {
+        // Small tablets
+        sizeLimit = 500;
+      } else if (window.innerWidth <= 768) {
+        // Tablets
+        sizeLimit = 650;
+      } else if (window.innerWidth <= 1024) {
+        // Large tablets / Small laptops
+        sizeLimit =800;
+      } else if (window.innerWidth <= 1280) {
+        // Laptops
+        sizeLimit = 850;
+      } else {
+        // Desktops and larger screens
+        sizeLimit = 950;
+      }
+    
+      const size = Math.min(maxWidth, maxHeight, sizeLimit);
       setCanvasDimensions({ width: size, height: size });
     };
+    
+    
+    
 
     updateCanvasDimensions();
     window.addEventListener("resize", updateCanvasDimensions);
@@ -47,7 +85,9 @@ const ImageCanvas = ({ selectedImage }) => {
   // Add image to canvas
   useEffect(() => {
     if (selectedImage) {
-      addImage(selectedImage);
+      addImage(selectedImage.image_url);
+      console.log(selectedImage);
+     setPatient(selectedImage)
     }
   }, [selectedImage]);
 
@@ -83,6 +123,16 @@ const ImageCanvas = ({ selectedImage }) => {
     setBrushColor(color);
     if (canvasInstance.current && canvasInstance.current.isDrawingMode) {
       canvasInstance.current.freeDrawingBrush.color = color;
+    }
+  };
+
+  const handleTextColorChange = (color) => {
+    setTextColor(color);
+    const canvas = canvasInstance.current;
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === "textbox") {
+      activeObject.set("fill", color);
+      canvas.renderAll();
     }
   };
 
@@ -127,7 +177,7 @@ const ImageCanvas = ({ selectedImage }) => {
       left: 100,
       top: 100,
       fontSize: 20,
-      fill: "black",
+      fill: textColor, // Use the current text color
       selectable: true,
     });
     canvas.add(text);
@@ -135,9 +185,72 @@ const ImageCanvas = ({ selectedImage }) => {
     canvas.renderAll();
   };
 
+  const addCircle = () => {
+    if (!canvasInstance.current) return;
+    const canvas = canvasInstance.current;
+    const circle = new fabric.Circle({
+      radius: 50,
+      fill: "transparent",
+      stroke: "black",
+      strokeWidth: 2,
+      left: 100,
+      top: 100,
+      selectable: true,
+    });
+    canvas.add(circle);
+    canvas.setActiveObject(circle);
+    canvas.renderAll();
+  };
+
+  const addRectangle = () => {
+    if (!canvasInstance.current) return;
+    const canvas = canvasInstance.current;
+    const rect = new fabric.Rect({
+      width: 100,
+      height: 100,
+      fill: "transparent",
+      stroke: "black",
+      strokeWidth: 2,
+      left: 100,
+      top: 100,
+      selectable: true,
+    });
+    canvas.add(rect);
+    canvas.setActiveObject(rect);
+    canvas.renderAll();
+  };
+
+  const clearCanvas = () => {
+    if (!canvasInstance.current) return;
+    const canvas = canvasInstance.current;
+    canvas.clear();
+    if (imageRef.current) {
+      canvas.add(imageRef.current);
+    }
+  };
+
+  const saveCanvasAsImage = () => {
+    if (!canvasInstance.current) return;
+    const canvas = canvasInstance.current;
+    const dataURL = canvas.toDataURL({
+      format: "png",
+      quality: 1.0,
+    });
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "canvas-image.png";
+    link.click();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen w-full bg-zinc-800 p-4">
+  
+
+ 
+      
       {/* Canvas */}
+
+
       <canvas
         ref={canvasEl}
         width={canvasDimensions.width}
@@ -146,7 +259,8 @@ const ImageCanvas = ({ selectedImage }) => {
       />
 
       {/* Button Panel */}
-      <div className="flex flex-row flex-wrap justify-center gap-2 mt-4 md:absolute md:right-3 md:top-1/2 md:transform md:-translate-y-1/2 md:flex-col md:gap-2 md:p-4 md:bg-gray-900 md:rounded-lg md:shadow-lg">
+      <Sidebar2>
+      <div className="flex flex-col gap-2">
         <Button onClick={() => rotateImage(90)} isActive={false} icon={RotateCw}>
           Rotate 90°
         </Button>
@@ -165,10 +279,30 @@ const ImageCanvas = ({ selectedImage }) => {
         <Button onClick={toggleEraser} isActive={eraserMode} icon={Eraser}>
           {eraserMode ? "Disable Eraser" : "Enable Eraser"}
         </Button>
-        <Button onClick={addText} isActive={false} icon={Text}>
+        <Button
+          onClick={addText}
+          isActive={false}
+          icon={Text}
+          showColorPicker={true}
+          onColorChange={handleTextColorChange}
+        >
           Add Text
         </Button>
+        <Button onClick={addCircle} isActive={false} icon={Circle}>
+          Add Circle
+        </Button>
+        <Button onClick={addRectangle} isActive={false} icon={Square}>
+          Add Rectangle
+        </Button>
+        <Button onClick={clearCanvas} isActive={false} icon={Trash2}>
+          Clear Canvas
+        </Button>
+        <Button onClick={saveCanvasAsImage} isActive={false} icon={Save}>
+          Save Image
+        </Button>
       </div>
+      
+      </Sidebar2>
     </div>
   );
 };

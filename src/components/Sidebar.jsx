@@ -11,12 +11,22 @@ const scanData = {
       title: "MRI Brain Scan",
       date: "2025-02-08",
       time: "10:30 AM",
+      patient: {
+        name: "John Doe",
+        sex: "Male",
+        age: 45,
+      },
     },
     {
       image_url: "src/assets/hand.jpg",
       title: "Chest X-ray",
       date: "2025-02-08",
       time: "02:15 PM",
+      patient: {
+        name: "Jane Smith",
+        sex: "Female",
+        age: 38,
+      },
     },
   ],
   "2025-02-07": [
@@ -25,12 +35,22 @@ const scanData = {
       title: "CT Abdomen Scan",
       date: "2025-02-07",
       time: "09:45 AM",
+      patient: {
+        name: "Robert Brown",
+        sex: "Male",
+        age: 52,
+      },
     },
     {
       image_url: "src/assets/xray.jpg",
       title: "Ultrasound Kidney",
       date: "2025-02-07",
       time: "03:20 PM",
+      patient: {
+        name: "Emily Davis",
+        sex: "Female",
+        age: 29,
+      },
     },
   ],
   "2025-02-06": [
@@ -39,9 +59,15 @@ const scanData = {
       title: "MRI Spine Scan",
       date: "2025-02-06",
       time: "11:10 AM",
+      patient: {
+        name: "Michael Johnson",
+        sex: "Male",
+        age: 60,
+      },
     },
   ],
 };
+
 
 export default function PatientScansSidebar({ setSelectedImage }) {
   const [openDate, setOpenDate] = useState(null);
@@ -99,7 +125,7 @@ export default function PatientScansSidebar({ setSelectedImage }) {
                         <div
                           key={index}
                           className="p-3 min-h-10 border-t border-zinc-700 cursor-pointer hover:bg-zinc-700 transition flex items-center"
-                          onClick={() => setSelectedImage(scan.image_url)}
+                          onClick={() => setSelectedImage(scan)}
                         >
                           <img
                             src={scan.image_url || "/placeholder.svg"}

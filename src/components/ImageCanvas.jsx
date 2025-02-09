@@ -25,13 +25,13 @@ const ImageCanvas = ({ selectedImage }) => {
       let sizeLimit;
       if (window.innerWidth <= 320) {
         // Extra small mobile devices
-        sizeLimit = 250;
+        sizeLimit = 240;
       } else if (window.innerWidth <= 375) {
         // Small mobile devices
-        sizeLimit = 280;
+        sizeLimit = 250;
       } else if (window.innerWidth <= 425) {
         // Regular mobile devices
-        sizeLimit = 325;
+        sizeLimit = 300;
       } else if (window.innerWidth <= 500) {
         // Large mobile devices
         sizeLimit = 350;

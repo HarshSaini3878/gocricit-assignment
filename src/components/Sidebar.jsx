@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
 const scanData = {
   "2025-02-08": [
     {
-      image_url: "src/assets/xray.jpg",
+      image_url: "/xray.jpg",
       title: "MRI Brain Scan",
       date: "2025-02-08",
       time: "10:30 AM",
@@ -18,7 +18,7 @@ const scanData = {
       },
     },
     {
-      image_url: "src/assets/hand.jpg",
+      image_url: "/hand.jpg",
       title: "Chest X-ray",
       date: "2025-02-08",
       time: "02:15 PM",
@@ -31,7 +31,7 @@ const scanData = {
   ],
   "2025-02-07": [
     {
-      image_url: "src/assets/hand.jpg",
+      image_url: "/hand.jpg",
       title: "CT Abdomen Scan",
       date: "2025-02-07",
       time: "09:45 AM",
@@ -42,7 +42,7 @@ const scanData = {
       },
     },
     {
-      image_url: "src/assets/xray.jpg",
+      image_url: "/xray.jpg",
       title: "Ultrasound Kidney",
       date: "2025-02-07",
       time: "03:20 PM",
@@ -55,7 +55,7 @@ const scanData = {
   ],
   "2025-02-06": [
     {
-      image_url: "src/assets/hand.jpg",
+      image_url: "/hand.jpg",
       title: "MRI Spine Scan",
       date: "2025-02-06",
       time: "11:10 AM",
